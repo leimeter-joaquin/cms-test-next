@@ -1,4 +1,8 @@
-import { EntrySkeletonType, createClient } from "contentful";
+import {
+  ContentfulClientApi,
+  EntrySkeletonType,
+  createClient,
+} from "contentful";
 import { config } from "dotenv";
 import { CONTENT_TYPE } from "./generated/contentful";
 
@@ -12,27 +16,39 @@ declare global {
     interface ProcessEnv {
       CONTENTFUL_SPACE_ID: string;
       CONTENTFUL_DELIVERY_API_ACCESS_TOKEN: string;
+      CONTENTFUL_PREVIEW_API_ACCESS_TOKEN: string;
     }
   }
 }
 
 config();
 
-export default class ContentService {
-  static get instance() {
-    return new ContentService();
-  }
+const client = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID ?? "",
+  accessToken: process.env.CONTENTFUL_DELIVERY_API_ACCESS_TOKEN ?? "",
+});
 
-  client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID ?? "",
-    accessToken: process.env.CONTENTFUL_DELIVERY_API_ACCESS_TOKEN ?? "",
-  });
+const previewClient = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID ?? "",
+  accessToken: process.env.CONTENTFUL_PREVIEW_API_ACCESS_TOKEN ?? "",
+  host: "preview.contentful.com",
+});
 
-  async getEntriesByType(type: CONTENT_TYPE) {
-    return (
-      await this.client.getEntries({
-        content_type: type,
-      })
-    ).items;
-  }
-}
+/**
+ *
+ * @param type You can check the content types in \@/contentful/generated/contentful.ts
+ * @param client get client from \@/contentful/index.ts
+ * @returns Entries of a given type from a given client.
+ */
+const getEntriesByType = async (
+  type: CONTENT_TYPE,
+  client: ContentfulClientApi<undefined>
+) => {
+  return (
+    await client.getEntries({
+      content_type: type,
+    })
+  ).items;
+};
+
+export { client, previewClient, getEntriesByType };

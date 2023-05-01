@@ -1,21 +1,25 @@
-import ContentService from "@/contentful";
 import { ITheyTrustUsCompaniesFields } from "@/contentful/generated/contentful";
+import { GetStaticProps } from "next";
 import Image from "next/image";
+import * as contentful from "@/contentful";
 
 interface HomeProps {
   theyTrustUsCompanies: ITheyTrustUsCompaniesFields[];
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async (context) => {
+  // Here we choose the client to use depending on the preview mode
+  const client = context.preview ? contentful.previewClient : contentful.client;
+
   const theyTrustUsCompanies = (
-    await ContentService.instance.getEntriesByType("theyTrustUsCompanies")
+    await contentful.getEntriesByType("theyTrustUsCompanies", client)
   ).map((entry) => entry.fields);
   return {
     props: {
       theyTrustUsCompanies,
     },
   };
-}
+};
 
 export default function Home({ theyTrustUsCompanies }: HomeProps) {
   console.log();
