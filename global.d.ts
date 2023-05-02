@@ -6,8 +6,10 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      CONTENTFUL_MANAGEMENT_API_ACCESS_TOKEN: string;
       CONTENTFUL_SPACE_ID: string;
       CONTENTFUL_DELIVERY_API_ACCESS_TOKEN: string;
+      CONTENTFUL_ENVIRONMENT: string;
       CONTENTFUL_PREVIEW_API_ACCESS_TOKEN: string;
       CONTENTFUL_PREVIEW_API_SECRET: string;
     }
