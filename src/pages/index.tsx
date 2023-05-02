@@ -2,8 +2,10 @@ import { ITheyTrustUsCompaniesFields } from "@/contentful/generated/contentful";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import * as contentful from "@/contentful";
+import PreviewBanner from "@/components/PreviewBanner";
 
 interface HomeProps {
+  preview: boolean;
   theyTrustUsCompanies: ITheyTrustUsCompaniesFields[];
 }
 
@@ -16,18 +18,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
   ).map((entry) => entry.fields);
   return {
     props: {
+      preview: context.preview || false,
       theyTrustUsCompanies,
     },
   };
 };
 
-export default function Home({ theyTrustUsCompanies }: HomeProps) {
+export default function Home({ theyTrustUsCompanies, preview }: HomeProps) {
   console.log();
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 `}
-    >
-      <div className="flex">
+    <main>
+      {preview && <PreviewBanner />}
+      <div className="flex min-h-screen flex-col items-center justify-between p-24 ">
         {theyTrustUsCompanies.map((item, index: number) => {
           return (
             <div key={index}>

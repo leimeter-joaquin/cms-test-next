@@ -35,7 +35,6 @@ const previewClient = createClient({
 });
 
 /**
- *
  * @param type You can check the content types in \@/contentful/generated/contentful.ts
  * @param client get client from \@/contentful/index.ts
  * @returns Entries of a given type from a given client.
