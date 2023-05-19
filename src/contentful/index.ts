@@ -37,4 +37,4 @@ const getEntriesByType = async (
   ).items;
 };
 
-export { client, previewClient };
+export { client, previewClient, getEntriesByType };

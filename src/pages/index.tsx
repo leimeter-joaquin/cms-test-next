@@ -32,13 +32,14 @@ export default function Home({ theyTrustUsCompanies, preview }: HomeProps) {
       <div className="flex min-h-screen flex-col items-center justify-between p-24 ">
         {theyTrustUsCompanies.map((item, index: number) => {
           return (
-            <div key={index}>
+            <div key={index} data-testid={item.name}>
               <Image
                 src={item.icon?.fields.file?.url as string}
                 alt={item.icon?.fields.description as string}
                 width="200"
                 height="85"
               />
+              <div>{item.name}</div>
             </div>
           );
         })}

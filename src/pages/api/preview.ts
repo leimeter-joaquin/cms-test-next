@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  // use localhost:3000/api/preview?secret=somesecret
   if (req.query.secret !== process.env.CONTENTFUL_PREVIEW_API_SECRET) {
     console.log("Invalid token");
     return res.status(401).json({ message: "Invalid token" });
